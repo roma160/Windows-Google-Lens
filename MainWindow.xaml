@@ -1,13 +1,14 @@
-﻿<Window x:Class="Windows_Google_Lens.MainWindow"
+﻿<Window x:Name="MainUIWindow" x:Class="Windows_Google_Lens.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Windows_Google_Lens"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="16">
+        Title="Windows Google Lens" Height="250" Width="250" FontSize="16" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="debugButton" Content="Button" HorizontalAlignment="Left" Margin="55,45,0,0" VerticalAlignment="Top" Width="113" Height="50" FontWeight="Bold" Click="debugButton_Click"/>
-
+        <Button x:Name="scrennshotSearch" Content="Screenshot search" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="scrennshotSearch_Click"/>
+        <Button x:Name="clipboardSearch" Content="Clipboard search" HorizontalAlignment="Center" Margin="0,58,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold"/>
+        <Button x:Name="fileSearch" Content="File search" HorizontalAlignment="Center" Margin="0,151,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold"/>
     </Grid>
 </Window>

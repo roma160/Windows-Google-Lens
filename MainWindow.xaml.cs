@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.System;
 
 namespace Windows_Google_Lens
 {
@@ -38,11 +41,38 @@ namespace Windows_Google_Lens
                 RegexOptions.Compiled);
         }
 
-        private async void debugButton_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> CaptureScreenshot()
+        {
+            bool result = await Windows.System.Launcher.LaunchUriAsync(
+                new Uri("ms-screenclip:edit?delayInSeconds=0&clippingMode=true"));
+            if (!result) return false;
+
+            Process clippingProcess = Process.GetProcessesByName("ScreenClippingHost")[0];
+            clippingProcess.WaitForExit();
+            return true;
+        }
+
+        private byte[] GetImageFromClipboard()
+        {
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.QualityLevel = 100;
+
+            byte[] res;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                var image = Clipboard.GetImage();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                encoder.Save(stream);
+                res = stream.ToArray();
+            }
+
+            return res;
+        }
+
+        private async void launchGoogleLens(byte[] imageBytes)
         {
             MultipartFormDataContent formData = new MultipartFormDataContent();
-            ByteArrayContent encoded_image = new ByteArrayContent(
-                File.ReadAllBytes("C:/buff/img.jpg"));
+            ByteArrayContent encoded_image = new ByteArrayContent(imageBytes);
             encoded_image.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
             formData.Add(encoded_image, "encoded_image");
 
@@ -62,6 +92,13 @@ namespace Windows_Google_Lens
             MatchCollection matches = resultUrlRegex.Matches(response_text);
 
             System.Diagnostics.Process.Start(matches[0].Value);
+        }
+
+        private async void scrennshotSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if(!await CaptureScreenshot() || !Clipboard.ContainsImage()) return;
+            
+            launchGoogleLens(GetImageFromClipboard());
         }
     }
 }
