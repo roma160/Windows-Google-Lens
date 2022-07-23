@@ -7,39 +7,24 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Height="204.8" Width="252.8" Background="#12000000" Foreground="White"
-        ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True"
-        ui:TitleBar.ExtendViewIntoTitleBar="True"
-        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}">
+        Height="204.8" Width="252.8" Background="#A0000000" Foreground="White">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- https://stackoverflow.com/questions/18636744/setting-the-rowdefinition-height-from-staticresource -->
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-    <Window.Resources>
-        <System:Double x:Key="HeaderSize">35</System:Double>
-    </Window.Resources>
-
-    <WindowChrome.WindowChrome>
-        <WindowChrome UseAeroCaptionButtons="False" CaptionHeight="{StaticResource HeaderSize}"/>
-    </WindowChrome.WindowChrome>
-    
-
-    <Border CornerRadius="100" BorderBrush="#FFFF6F6F" BorderThickness="1">
-        <Grid>
-            <Grid.RowDefinitions>
-                <!-- https://stackoverflow.com/questions/18636744/setting-the-rowdefinition-height-from-staticresource -->
-                <RowDefinition Height="{Binding Source={StaticResource HeaderSize}}" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid Height="{StaticResource HeaderSize}">
-                <TextBlock>Hey from Here</TextBlock>
-            </Grid>
-            <Canvas Grid.Row="1" Background="#50FFFFFF" Margin="0,5,0,0">
-                <Grid Margin="10" ui:ThemeManager.HasThemeResources="True" Grid.Row="1">
-                    <Button Content="Hello there!"></Button>
-                </Grid>
-            </Canvas>
+        <Grid Height="28">
+            <TextBlock VerticalAlignment="Center" Margin="10,2,0,0">Hey from Here</TextBlock>
         </Grid>
-    </Border>
+        <Canvas Grid.Row="1" Background="#50000000" Margin="0,4,0,0">
+            <Grid Margin="10" ui:ThemeManager.HasThemeResources="True">
+                <Button Content="Hello there!"></Button>
+            </Grid>
+        </Canvas>
+    </Grid>
 </local:AcrylicWindow>
 
 

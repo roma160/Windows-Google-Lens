@@ -3,15 +3,11 @@
                     xmlns:ui="http://schemas.modernwpf.com/2019">
 
     <Style x:Key="AcrylicWindow" TargetType="Window">
-        <Setter Property="Window.ResizeMode" Value="NoResize"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="ui:WindowHelper.UseModernWindowStyle" Value="True"/>
         <Setter Property="ui:TitleBar.ExtendViewIntoTitleBar" Value="True"/>
         <Setter Property="Title" Value="Hello world!"/>
-    </Style>
-
-    <Style x:Key="HEllo" TargetType="Button">
-        <Setter Property="Content" Value="Hello"/>
     </Style>
 </ResourceDictionary>
