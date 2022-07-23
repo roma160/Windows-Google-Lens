@@ -7,6 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/AcrylicWindow.xaml"/>
                 <ui:ThemeResources RequestedTheme="Dark" AccentColor="ForestGreen"/>
                 <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>

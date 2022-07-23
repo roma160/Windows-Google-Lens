@@ -18,7 +18,7 @@ namespace Windows_Google_Lens.Views
     /// <summary>
     /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class DialogWindow : Window
+    public partial class DialogWindow : AcrylicWindow
     {
         public String testString => "Hello world!";
 
