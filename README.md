@@ -1,6 +1,6 @@
 ﻿# Windows Google Lens
 
-Project to make native port of mobile version of Google Lense onto Windows.
+Project to make **unofficial** native port of mobile version of Google Lense onto Windows.
 
 The concept is firstly presented by https://github.com/WhoIsJayD/Google-Lens-For-Windows
 

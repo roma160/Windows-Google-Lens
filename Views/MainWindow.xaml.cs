@@ -19,9 +19,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Windows.System;
+using ModernWpf.Controls;
 using Windows_Google_Lens.Lens;
 
-namespace Windows_Google_Lens
+namespace Windows_Google_Lens.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -37,12 +38,12 @@ namespace Windows_Google_Lens
             worker = new Worker();
         }
 
-        private void scrennshotSearch_Click(object sender, RoutedEventArgs e)
+        private void screenshotSearch_Click(object sender, RoutedEventArgs e)
         {
             Task.Run(async () =>
             {
                 if (!await ScreenshotUtils.CaptureScreenshot() ||
-                    !await ScreenshotUtils.ClipboardHasImage())
+                    !await ScreenshotUtils.ClipboardHasImage(false))
                     return;
 
                 worker.LaunchGoogleLens(
