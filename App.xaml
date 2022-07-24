@@ -3,13 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Windows_Google_Lens"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             StartupUri="Views/DialogWindow.xaml">
+             xmlns:views="clr-namespace:Windows_Google_Lens.Views"
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Views/AcrylicWindow.xaml"/>
+
                 <ui:ThemeResources RequestedTheme="Dark" AccentColor="ForestGreen"/>
                 <ui:XamlControlsResources />
+
+                <ResourceDictionary Source="Views/AcrylicWindow.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

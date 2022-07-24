@@ -27,7 +27,7 @@ namespace Windows_Google_Lens.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : AcrylicWindow
     {
         private readonly Worker worker;
 
@@ -36,6 +36,8 @@ namespace Windows_Google_Lens.Views
             InitializeComponent();
 
             worker = new Worker();
+
+            new DialogWindow().Show();
         }
 
         private void screenshotSearch_Click(object sender, RoutedEventArgs e)

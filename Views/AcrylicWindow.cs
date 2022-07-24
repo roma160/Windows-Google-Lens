@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using Windows.UI;
 using ModernWpf.Controls;
@@ -240,18 +242,20 @@ namespace Windows_Google_Lens.Views
 
         public AcrylicWindow() : base()
         {
-            ResizeMode = ResizeMode.NoResize;
-            WindowStyle = WindowStyle.None;
-            AllowsTransparency = true;
+            //ResizeMode = ResizeMode.NoResize;
+            //WindowStyle = WindowStyle.None;
+            //AllowsTransparency = true;
 
-            SetValue(WindowHelper.UseModernWindowStyleProperty, true);
-            SetValue(TitleBar.ExtendViewIntoTitleBarProperty, true);
+            //SetValue(WindowHelper.UseModernWindowStyleProperty, true);
 
             Loaded += OnLoaded;
+
+            //Template = (ControlTemplate) FindResource("AcrylicTemplate");
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            //SetValue(TitleBar.ExtendViewIntoTitleBarProperty, true);
             EnableBlur();
         }
 

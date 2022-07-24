@@ -7,6 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
+        Style="{StaticResource AcrylicWindow}"
         Height="204.8" Width="252.8" Background="#A0000000" Foreground="White">
 
     <Grid>
@@ -26,43 +27,3 @@
         </Canvas>
     </Grid>
 </local:AcrylicWindow>
-
-
-<!-- 
-            Title="DialogWindow" Height="204.8" Width="252.8" Background="Black" Foreground="White"
-        ResizeMode="NoResize"
-        ui:WindowHelper.UseModernWindowStyle="True"
-        Height="204.8" Width="252.8" Background="#12000000" Foreground="White"
-        ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True"
-        ui:TitleBar.ExtendViewIntoTitleBar="True"
-        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}">
-
-    <Window.Resources>
-        <Style x:Key="AppTitleBarStyle" TargetType="ui:TitleBarControl">
-            <Setter Property="ui:ThemeManager.RequestedTheme" Value="Dark" />
-        </Style>
-    </Window.Resources>
-
-<Border CornerRadius="100">
-    <Border CornerRadius="100" BorderBrush="#FFFF6F6F" BorderThickness="1">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-                <RowDefinition Height="{Binding Source={StaticResource HeaderSize}}" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid Height="{Binding ElementName=Window, Path=(ui:TitleBar.Height)}">
-                <Grid Height="{StaticResource HeaderSize}">
-                    <TextBlock>Hey from Here</TextBlock>
-                </Grid>
-                <Canvas Grid.Row="1" Background="#50FFFFFF" Margin="0,5,0,0">
-                    <Grid Margin="10" ui:ThemeManager.HasThemeResources="True" Grid.Row="1">
-                        <Button Content="Hello there!"></Button>
-                    </Grid>
-                </Canvas>
-            </Grid>
-    </Border>
-    </local:AcrylicWindow>
--->
