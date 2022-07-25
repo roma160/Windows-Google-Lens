@@ -7,23 +7,10 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Style="{StaticResource AcrylicWindow}"
-        Height="204.8" Width="252.8" Background="#A0000000" Foreground="White">
+        Title="Hey"
+        Height="204.8" Width="252.8" Foreground="White" Background="#33000000" BlurColor="#33FF5E69">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <!-- https://stackoverflow.com/questions/18636744/setting-the-rowdefinition-height-from-staticresource -->
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Grid Height="28">
-            <TextBlock VerticalAlignment="Center" Margin="10,2,0,0">Hey from Here</TextBlock>
-        </Grid>
-        <Canvas Grid.Row="1" Background="#50000000" Margin="0,4,0,0">
-            <Grid Margin="10" ui:ThemeManager.HasThemeResources="True">
-                <Button Content="Hello there!"></Button>
-            </Grid>
-        </Canvas>
+    <Grid Margin="10" ui:ThemeManager.HasThemeResources="True">
+        <Button Content="Hello there!" VerticalAlignment="Top"/>
     </Grid>
 </local:AcrylicWindow>

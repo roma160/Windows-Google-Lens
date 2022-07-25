@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Windows_Google_Lens.Views"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="Windows Google Lens" Height="250" Width="250" FontSize="16" Background="#A0000000" Foreground="White">
+        Title="Windows Google Lens" Height="250" Width="250" FontSize="16" Foreground="White">
     <Grid ui:ThemeManager.HasThemeResources="True">
         <Button x:Name="screenshotSearch" Content="Screenshot search" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="screenshotSearch_Click" Focusable="False"/>
         <Button x:Name="clipboardSearch" Content="Clipboard search" HorizontalAlignment="Center" Margin="0,58,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="clipboardSearch_Click" Focusable="False"/>

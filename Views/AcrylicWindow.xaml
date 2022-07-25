@@ -2,32 +2,56 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="http://schemas.modernwpf.com/2019"
                     xmlns:local="clr-namespace:Windows_Google_Lens.Views">
-
-    <ControlTemplate x:Key="AcrylicTemplate" TargetType="local:AcrylicWindow">
-        <Grid>
-            <Grid.RowDefinitions>
-                <!-- https://stackoverflow.com/questions/18636744/setting-the-rowdefinition-height-from-staticresource -->
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid Height="28">
-                <TextBlock VerticalAlignment="Center" Margin="10,2,0,0" Text="{Binding RelativeSource={RelativeSource AncestorType=local:AcrylicWindow, Mode=FindAncestor}, Path=Title}"/>
-            </Grid>
-            <Canvas Grid.Row="1" Background="#50000000" Margin="0,4,0,0">
-                <ContentPresenter
-                    Content="{TemplateBinding Content}" 
-                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                />
-            </Canvas>
-        </Grid>
-    </ControlTemplate>
-
-    <Style x:Key="AcrylicWindow" TargetType="local:AcrylicWindow" BasedOn="{StaticResource {x:Type Window}}">
+    <!-- https://github.com/Kinnara/ModernWpf/blob/master/ModernWpf/Styles/Window.xaml -->
+    <Style x:Key="{x:Type local:AcrylicWindow}"
+           TargetType="local:AcrylicWindow"
+           BasedOn="{StaticResource {x:Type Window}}">
         <Setter Property="ResizeMode" Value="NoResize"/>
         <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="AllowsTransparency" Value="True"/>
-        <!--<Setter Property="Template" Value="{StaticResource AcrylicTemplate}"/>-->
-        <Setter Property="ui:TitleBar.ExtendViewIntoTitleBar" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:AcrylicWindow">
+                    <Grid Background="#01000000">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!-- Default height of windows application title -->
+                        <Grid Height="32">
+                            <ui:TitleBarControl
+                                Icon="{TemplateBinding Icon}"
+                                Title="{TemplateBinding Title}"
+                                IsActive="{TemplateBinding IsActive}"
+                                Background="{TemplateBinding ui:TitleBar.Background}"
+                                Foreground="{TemplateBinding ui:TitleBar.Foreground}"
+                                InactiveBackground="{TemplateBinding ui:TitleBar.InactiveBackground}"
+                                InactiveForeground="{TemplateBinding ui:TitleBar.InactiveForeground}"
+                                Style="{TemplateBinding ui:TitleBar.Style}"
+                                ButtonStyle="{TemplateBinding ui:TitleBar.ButtonStyle}"
+                                IsIconVisible="{TemplateBinding ui:TitleBar.IsIconVisible}"
+                                IsBackButtonVisible="{TemplateBinding ui:TitleBar.IsBackButtonVisible}"
+                                IsBackEnabled="{TemplateBinding ui:TitleBar.IsBackEnabled}"
+                                BackButtonCommand="{TemplateBinding ui:TitleBar.BackButtonCommand}"
+                                BackButtonCommandParameter="{TemplateBinding ui:TitleBar.BackButtonCommandParameter}"
+                                BackButtonCommandTarget="{TemplateBinding ui:TitleBar.BackButtonCommandTarget}"
+                                BackButtonStyle="{TemplateBinding ui:TitleBar.BackButtonStyle}"
+                                ExtendViewIntoTitleBar="{TemplateBinding ui:TitleBar.ExtendViewIntoTitleBar}"
+                                Panel.ZIndex="1"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            </ui:TitleBarControl>
+                        </Grid>
+                        <Canvas Grid.Row="1" Background="#A0000000">
+                            <AdornerDecorator x:Name="AdornerDecorator">
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}" 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                />
+                            </AdornerDecorator>
+                        </Canvas>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
