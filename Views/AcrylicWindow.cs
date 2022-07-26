@@ -24,12 +24,17 @@ namespace Windows_Google_Lens.Views
     {
         public static readonly DependencyProperty BlurColorProperty =
             DependencyProperty.Register("BlurColor", typeof(SolidColorBrush), typeof(AcrylicWindow),
-                new PropertyMetadata(new SolidColorBrush(Colors.Aquamarine), (o, args) => ((AcrylicWindow)o).Enable()));
+                new PropertyMetadata(new SolidColorBrush(Color.FromArgb(100, 0, 0, 0)), (o, args) => ((AcrylicWindow)o).Enable()));
         public SolidColorBrush BlurColor
         {
             get => (SolidColorBrush) GetValue(BlurColorProperty);
             set => SetValue(BlurColorProperty, value);
         }
+
+        public static readonly DependencyProperty BodyBlurColorProperty =
+            DependencyProperty.Register("BodyBlurColor", typeof(SolidColorBrush), typeof(AcrylicWindow),
+                new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+        public SolidColorBrush BodyBlurColor { get; set; }
 
         public AcrylicWindow() => Loaded += OnLoaded;
 

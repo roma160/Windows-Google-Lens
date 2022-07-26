@@ -14,11 +14,11 @@
                     <Grid Background="#01000000">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <!-- Default height of windows application title -->
-                        <Grid Height="32">
+                        <Grid Grid.Row="0" Height="32">
                             <ui:TitleBarControl
                                 Icon="{TemplateBinding Icon}"
                                 Title="{TemplateBinding Title}"
@@ -41,14 +41,15 @@
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             </ui:TitleBarControl>
                         </Grid>
-                        <Canvas Grid.Row="1" Background="#A0000000">
+                        <!-- https://stackoverflow.com/questions/36653047/how-do-i-make-an-itemscontrol-stretch-to-fill-all-available-space -->
+                        <UniformGrid Grid.Row="1" Rows="1" Columns="1" Background="{TemplateBinding BodyBlurColor}">
                             <AdornerDecorator x:Name="AdornerDecorator">
                                 <ContentPresenter
                                     Content="{TemplateBinding Content}" 
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
                                 />
                             </AdornerDecorator>
-                        </Canvas>
+                        </UniformGrid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

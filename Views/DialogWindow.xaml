@@ -8,7 +8,8 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Hey"
-        Height="204.8" Width="252.8" Foreground="White" Background="#33000000" BlurColor="#33FF5E69">
+        Height="204.8" Width="252.8" Foreground="White"
+        BlurColor="#64000000" BodyBlurColor="#64000000" Background="Transparent">
 
     <Grid Margin="10" ui:ThemeManager.HasThemeResources="True">
         <Button Content="Hello there!" VerticalAlignment="Top"/>
