@@ -7,10 +7,22 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         Title="Windows Google Lens" Height="250" Width="250" FontSize="16"
-        BlurColor="#64000000" BodyBlurColor="#64000000" Background="Transparent" Loaded="MainUIWindow_Loaded">
-    <Grid ui:ThemeManager.HasThemeResources="True">
-        <Button x:Name="screenshotSearch" Content="Screenshot search" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="screenshotSearch_Click" Focusable="False"/>
-        <Button x:Name="clipboardSearch" Content="Clipboard search" HorizontalAlignment="Center" Margin="0,58,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="clipboardSearch_Click" Focusable="False"/>
-        <Button x:Name="fileSearch" Content="File search" HorizontalAlignment="Center" Margin="0,151,0,0" VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" Click="fileSearch_Click" Focusable="False"/>
+        BlurColor="#99000000" BodyBlurColor="#64000000" Background="Transparent" Loaded="MainUIWindow_Loaded">
+    <Grid>
+        <Button x:Name="screenshotSearch" Content="Screenshot search" 
+                HorizontalAlignment="Center" Margin="0,10,0,0" 
+                VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold" 
+                Click="screenshotSearch_Click" Focusable="False"
+                ToolTip="Open windows snipping tool to take a screenshot and then launch Google Lens website"/>
+        <Button x:Name="clipboardSearch" Content="Clipboard search"
+                HorizontalAlignment="Center" Margin="0,58,0,0"
+                VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold"
+                Click="clipboardSearch_Click" Focusable="False"
+                ToolTip="Search last clipboard picture"/>
+        <Button x:Name="fileSearch" Content="File search"
+                HorizontalAlignment="Center" Margin="0,151,0,0"
+                VerticalAlignment="Top" Width="169" Height="43" FontWeight="Bold"
+                Click="fileSearch_Click" Focusable="False"
+                ToolTip="Search by local file"/>
     </Grid>
 </local:AcrylicWindow>

@@ -29,6 +29,7 @@ namespace Windows_Google_Lens.Lens
                 window.ClipboardManager.ClipboardChanged -= onClipboardChange;
             }
 
+            // https://github.com/MicrosoftDocs/windows-uwp/blob/docs/windows-apps-src/launch-resume/launch-screen-snipping.md
             bool clipperLaunchResult = await Windows.System.Launcher.LaunchUriAsync(
                 new Uri("ms-screenclip:edit?delayInSeconds=0&clippingMode=true"));
             if (!clipperLaunchResult)

@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Windows.System;
+using Microsoft.Win32;
 using ModernWpf.Controls;
 using Windows_Google_Lens.Lens;
 using Windows_Google_Lens.Utils;
@@ -35,18 +36,27 @@ namespace Windows_Google_Lens.Views
         private ClipboardManager clipboardManager;
         public ClipboardManager ClipboardManager => clipboardManager;
 
+        private OpenFileDialog fileDialog;
+
         public MainWindow()
         {
             InitializeComponent();
 
             worker = new Worker();
 
-            new DialogWindow().Show();
+            fileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                // https://stackoverflow.com/questions/2069048/setting-the-filter-to-an-openfiledialog-to-allow-the-typical-image-formats
+                Filter = "Image Files (*.jpg, *.jpeg, *.png, *.gif, *.tif)|*.jpg;*.jpeg;*.png;*.gif;*.tif",
+                Title = "Open file to search:",
+                CheckPathExists = true
+            };
         }
 
         private void screenshotSearch_Click(object sender, RoutedEventArgs e)
         {
-            var t = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 if (!await ScreenshotUtils.CaptureScreenshot(this) ||
                     !await ScreenshotUtils.ClipboardHasImage(false))
@@ -70,7 +80,16 @@ namespace Windows_Google_Lens.Views
 
         private void fileSearch_Click(object sender, RoutedEventArgs e)
         {
-            
+            Task.Run(() =>
+            {
+                bool? fileDialogResult = Dispatcher.Invoke(() => fileDialog.ShowDialog(this));
+                if(!fileDialogResult.GetValueOrDefault(false)) return;
+
+                String filePath = fileDialog.FileName;
+                Task<byte[]> contentsTask = Task.Run(() => File.ReadAllBytes(filePath));
+
+                worker.LaunchGoogleLens(contentsTask);
+            });
         }
 
         private void MainUIWindow_Loaded(object sender, RoutedEventArgs e)
