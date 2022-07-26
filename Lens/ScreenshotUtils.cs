@@ -7,20 +7,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Windows_Google_Lens.Utils;
 
 namespace Windows_Google_Lens.Lens
 {
     public static class ScreenshotUtils
     {
-        public static async Task<bool> CaptureScreenshot()
+        private static bool theScreenshotIsCaptured = false;
+        public static async Task<bool> CaptureScreenshot(IWindowWithClipboardManager window)
         {
-            bool result = await Windows.System.Launcher.LaunchUriAsync(
-                new Uri("ms-screenclip:edit?delayInSeconds=0&clippingMode=true"));
-            if (!result) return false;
+            if (theScreenshotIsCaptured) return false;
+            theScreenshotIsCaptured = true;
 
-            Process clippingProcess = Process.GetProcessesByName("ScreenClippingHost")[0];
-            clippingProcess.WaitForExit();
-            return true;
+            bool clipboardHaveChanged = false;
+            EventHandler onClipboardChange = (sender, args) => clipboardHaveChanged = true;
+            window.ClipboardManager.ClipboardChanged += onClipboardChange;
+
+            void OnCaptureFinish()
+            {
+                theScreenshotIsCaptured = false;
+                window.ClipboardManager.ClipboardChanged -= onClipboardChange;
+            }
+
+            bool clipperLaunchResult = await Windows.System.Launcher.LaunchUriAsync(
+                new Uri("ms-screenclip:edit?delayInSeconds=0&clippingMode=true"));
+            if (!clipperLaunchResult)
+            {
+                OnCaptureFinish();
+                return false;
+            }
+
+            Process[] clippingProcesses = Process.GetProcessesByName("ScreenClippingHost");
+            if (clippingProcesses.Length == 0)
+            {
+                OnCaptureFinish();
+                return false;
+            }
+            clippingProcesses[0].WaitForExit();
+
+            OnCaptureFinish();
+            return clipboardHaveChanged;
         }
 
         private static byte[] clipboardImageWorker()

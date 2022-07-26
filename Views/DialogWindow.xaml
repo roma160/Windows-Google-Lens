@@ -9,9 +9,10 @@
         mc:Ignorable="d"
         Title="Hey"
         Height="204.8" Width="252.8" Foreground="White"
-        BlurColor="#64000000" BodyBlurColor="#64000000" Background="Transparent">
+        BlurColor="#64000000" BodyBlurColor="#64000000" Background="Transparent" Loaded="AcrylicWindow_Loaded">
 
     <Grid Margin="10" ui:ThemeManager.HasThemeResources="True">
-        <Button Content="Hello there!" VerticalAlignment="Top"/>
+        <Button Content="Hello there!" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Check" VerticalAlignment="Top" Margin="0,36,0,0" Click="Button_Click_1"/>
     </Grid>
 </local:AcrylicWindow>

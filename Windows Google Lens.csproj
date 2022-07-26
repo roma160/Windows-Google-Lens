@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Lens\ScreenshotUtils.cs" />
     <Compile Include="Lens\Worker.cs" />
+    <Compile Include="Utils\ClipboardManager.cs" />
     <Compile Include="Utils\WinAPI.cs" />
     <Compile Include="Views\AcrylicWindow.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
