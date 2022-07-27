@@ -80,11 +80,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\AcrylicWindow.xaml">
+    <Page Include="Views\Custom\AcrylicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,9 +104,12 @@
     <Compile Include="Lens\Worker.cs" />
     <Compile Include="Utils\ClipboardManager.cs" />
     <Compile Include="Utils\WinAPI.cs" />
-    <Compile Include="Views\AcrylicWindow.cs" />
+    <Compile Include="Views\Custom\AcrylicWindow.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

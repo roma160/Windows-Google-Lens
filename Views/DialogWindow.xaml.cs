@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ModernWpf.Controls;
 using Windows_Google_Lens.Utils;
+using Windows_Google_Lens.Views.Custom;
 
 namespace Windows_Google_Lens.Views
 {

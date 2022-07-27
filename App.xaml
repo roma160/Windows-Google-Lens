@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Windows_Google_Lens"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:views="clr-namespace:Windows_Google_Lens.Views"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Views/LoadingWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -12,7 +12,7 @@
                 <ui:ThemeResources RequestedTheme="Dark" AccentColor="ForestGreen"/>
                 <ui:XamlControlsResources />
 
-                <ResourceDictionary Source="Views/AcrylicWindow.xaml"/>
+                <ResourceDictionary Source="Views/Custom/AcrylicWindow.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -23,6 +23,7 @@ using Microsoft.Win32;
 using ModernWpf.Controls;
 using Windows_Google_Lens.Lens;
 using Windows_Google_Lens.Utils;
+using Windows_Google_Lens.Views.Custom;
 
 namespace Windows_Google_Lens.Views
 {

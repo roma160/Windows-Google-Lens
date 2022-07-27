@@ -17,7 +17,7 @@ using Windows_Google_Lens.Utils;
 using Color = System.Windows.Media.Color;
 using Colors = System.Windows.Media.Colors;
 
-namespace Windows_Google_Lens.Views
+namespace Windows_Google_Lens.Views.Custom
 {
     //https://github.com/riverar/sample-win32-acrylicblur/blob/master/MainWindow.xaml.cs
     public class AcrylicWindow : Window
