@@ -6,9 +6,18 @@
         xmlns:local="clr-namespace:Windows_Google_Lens.Views.Custom"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="LoadingWindow" Height="206.8" Width="432"
-        BlurColor="#99000000" BodyBlurColor="#64000000" Background="Transparent">
+        Title="Please wait..." Height="180" Width="300"
+        BlurColor="#99000000" BodyBlurColor="#64000000" Background="Transparent"
+        ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Grid>
-        <ui:ProgressRing Width="150" Height="150" IsActive="True" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" x:Name="textBlock" HorizontalAlignment="Center"
+                   Margin="10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center"
+                   Foreground="White" FontSize="18"/>
+        <ui:ProgressBar Grid.Row="1" Margin="30,0,30,30" IsIndeterminate="True" Grid.RowSpan="2" />
     </Grid>
 </local:AcrylicWindow>

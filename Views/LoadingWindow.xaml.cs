@@ -20,9 +20,26 @@ namespace Windows_Google_Lens.Views
     /// </summary>
     public partial class LoadingWindow : AcrylicWindow
     {
-        public LoadingWindow()
+        public LoadingWindow(String loadingText)
         {
             InitializeComponent();
+
+            textBlock.Text = loadingText;
         }
+
+        public static async Task<LoadingWindow> OpenLoadingWindow(String title, Window parentWindow)
+        {
+            LoadingWindow loadingWindow = null;
+            await parentWindow.Dispatcher.InvokeAsync(() =>
+            {
+                loadingWindow = new LoadingWindow(title);
+                loadingWindow.Owner = parentWindow;
+                loadingWindow.Show();
+            });
+            return loadingWindow;
+        }
+
+        public static async Task CloseLoadingWindow(LoadingWindow loadingWindow, Window parentWindow) =>
+            await parentWindow.Dispatcher.InvokeAsync(loadingWindow.Close);
     }
 }

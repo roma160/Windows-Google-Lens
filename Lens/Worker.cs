@@ -27,7 +27,7 @@ namespace Windows_Google_Lens.Lens
                 RegexOptions.Compiled);
         }
 
-        public async void LaunchGoogleLens(Task<byte[]> imageBytes)
+        public async Task LaunchGoogleLens(Task<byte[]> imageBytes)
         {
             MultipartFormDataContent formData = new MultipartFormDataContent();
 

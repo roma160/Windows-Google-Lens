@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Windows_Google_Lens"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:views="clr-namespace:Windows_Google_Lens.Views"
-             StartupUri="Views/LoadingWindow.xaml">
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
