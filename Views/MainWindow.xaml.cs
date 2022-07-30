@@ -32,6 +32,7 @@ namespace Windows_Google_Lens.Views
     /// </summary>
     public partial class MainWindow : AcrylicWindow, IWindowWithClipboardManager
     {
+        private Provider provider;
         private readonly Worker worker;
 
         private ClipboardManager clipboardManager;
@@ -43,6 +44,7 @@ namespace Windows_Google_Lens.Views
         {
             InitializeComponent();
 
+            provider = Providers.MicrosoftBing;
             worker = new Worker();
 
             fileDialog = new OpenFileDialog
@@ -66,8 +68,8 @@ namespace Windows_Google_Lens.Views
                 Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
                     "Your screenshot is being proceed.", this);
 
-                await worker.LaunchGoogleLens(
-                    ScreenshotUtils.GetImageFromClipboard());
+                await worker.LaunchLens(
+                    provider, ScreenshotUtils.GetImageFromClipboard());
 
                 await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
             });
@@ -75,37 +77,37 @@ namespace Windows_Google_Lens.Views
 
         private void clipboardSearch_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(async () =>
-            {
-                if (!await ScreenshotUtils.ClipboardHasImage()) return;
+            //Task.Run(async () =>
+            //{
+            //    if (!await ScreenshotUtils.ClipboardHasImage()) return;
 
-                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-                    "Your photo is being proceed.", this);
+            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+            //        "Your photo is being proceed.", this);
 
-                await worker.LaunchGoogleLens(
-                    ScreenshotUtils.GetImageFromClipboard());
+            //    await worker.LaunchLens(
+            //        ScreenshotUtils.GetImageFromClipboard());
 
-                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            });
+            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            //});
         }
 
         private void fileSearch_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(async () =>
-            {
-                bool? fileDialogResult = Dispatcher.Invoke(() => fileDialog.ShowDialog(this));
-                if(!fileDialogResult.GetValueOrDefault(false)) return;
+            //Task.Run(async () =>
+            //{
+            //    bool? fileDialogResult = Dispatcher.Invoke(() => fileDialog.ShowDialog(this));
+            //    if(!fileDialogResult.GetValueOrDefault(false)) return;
 
-                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-                    "Your file is being proceed.", this);
+            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+            //        "Your file is being proceed.", this);
 
-                String filePath = fileDialog.FileName;
-                Task<byte[]> contentsTask = Task.Run(() => File.ReadAllBytes(filePath));
+            //    String filePath = fileDialog.FileName;
+            //    Task<byte[]> contentsTask = Task.Run(() => File.ReadAllBytes(filePath));
 
-                await worker.LaunchGoogleLens(contentsTask);
+            //    await worker.LaunchLens(contentsTask);
 
-                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            });
+            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            //});
         }
 
         private void MainUIWindow_Loaded(object sender, RoutedEventArgs e)
@@ -115,11 +117,11 @@ namespace Windows_Google_Lens.Views
 
         private void debugButton_Click(object sender, RoutedEventArgs e)
         {
-            Window loadingWindow = null;
-            loadingWindow = new LoadingWindow(
-                "Your screenshot is being processed.");
-            loadingWindow.Owner = this;
-            loadingWindow.Show();
+            //Window loadingWindow = null;
+            //loadingWindow = new LoadingWindow(
+            //    "Your screenshot is being processed.");
+            //loadingWindow.Owner = this;
+            //loadingWindow.Show();
         }
     }
 }
