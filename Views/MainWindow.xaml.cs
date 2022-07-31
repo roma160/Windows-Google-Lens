@@ -33,7 +33,6 @@ namespace Windows_Google_Lens.Views
     public partial class MainWindow : AcrylicWindow, IWindowWithClipboardManager
     {
         private Provider provider;
-        private readonly Worker worker;
 
         private ClipboardManager clipboardManager;
         public ClipboardManager ClipboardManager => clipboardManager;
@@ -44,8 +43,7 @@ namespace Windows_Google_Lens.Views
         {
             InitializeComponent();
 
-            provider = Providers.MicrosoftBing;
-            worker = new Worker();
+            provider = Providers.GoogleLens;
 
             fileDialog = new OpenFileDialog
             {
@@ -57,24 +55,22 @@ namespace Windows_Google_Lens.Views
             };
         }
 
-        private async void screenshotSearch_Click(object sender, RoutedEventArgs e)
+        private void screenshotSearch_Click(object sender, RoutedEventArgs e)
         {
-            //Task.Run(async () =>
-            //{
-            //    if (!await ScreenshotUtils.CaptureScreenshot(this) ||
-            //        !await ScreenshotUtils.ClipboardHasImage(false))
-            //        return;
+            Task.Run(async () =>
+            {
+                if (!await ScreenshotUtils.CaptureScreenshot(this) ||
+                    !await ScreenshotUtils.ClipboardHasImage(false))
+                    return;
 
-            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-            //        "Your screenshot is being proceed.", this);
+                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+                    "Your screenshot is being proceed.", this);
 
-            //    await worker.LaunchLens(
-            //        provider, ScreenshotUtils.GetImageFromClipboard());
+                Worker.Result result = await Worker.LaunchLens(
+                    provider, ScreenshotUtils.GetImageFromClipboard());
 
-            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            //});
-
-            MessageBox.Show(await SocketWorker.GetResponce());
+                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            });
         }
 
         private void clipboardSearch_Click(object sender, RoutedEventArgs e)

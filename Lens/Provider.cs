@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Windows_Google_Lens.Lens
 {
@@ -25,13 +26,17 @@ namespace Windows_Google_Lens.Lens
         }
 
         public readonly String PostUrl;
+        public readonly String ConnectionType;
+        public readonly String PostDomain;
+        public readonly String PostPath;
+
         public readonly Dictionary<String, String> QueryParams;
         public readonly ImageEncodingType EncodingType;
         public readonly String TimestampQueryName;
         public readonly String ImageEntryName;
+        public readonly int PostSuccessStatusCode;
 
         public readonly Regex GetUrlRegex;
-        private readonly String DomainName;
         public readonly bool GetIncludesDomain;
 
         public PUploadGResultProvider(
@@ -39,6 +44,7 @@ namespace Windows_Google_Lens.Lens
             Dictionary<String, String> queryParams,
             ImageEncodingType encodingType,
             String timestampQueryName, String imageEntryName,
+            int postSuccessStatusCode,
             Regex getUrlRegex, bool getIncludesDomain) : base(providerName)
         {
             PostUrl = postUrl;
@@ -46,9 +52,14 @@ namespace Windows_Google_Lens.Lens
             EncodingType = encodingType;
             TimestampQueryName = timestampQueryName;
             ImageEntryName = imageEntryName;
+            PostSuccessStatusCode = postSuccessStatusCode;
 
             GetUrlRegex = getUrlRegex;
-            DomainName = new Regex(@"http(|s):\/\/[^\/]+").Matches(PostUrl)[0].Value;
+            GroupCollection groups = new Regex(
+                @"(http(|s)):\/\/([^\/]+)(.*)").Match(PostUrl).Groups;
+            ConnectionType = groups[1].Value;
+            PostDomain = groups[3].Value;
+            PostPath = groups[4].Value;
             GetIncludesDomain = getIncludesDomain;
         }
 
@@ -65,8 +76,9 @@ namespace Windows_Google_Lens.Lens
             MatchCollection matches = GetUrlRegex.Matches(responseText);
             if (matches.Count < 1) return null;
 
-            String returnLink = matches[0].Value;
-            if (!GetIncludesDomain) returnLink = DomainName + returnLink;
+            String returnLink = matches[0].Value.Replace("&amp;", "&");
+            if (!GetIncludesDomain) returnLink =
+                $"{ConnectionType}://{PostDomain}{returnLink}";
             return returnLink;
         }
     }
@@ -77,7 +89,7 @@ namespace Windows_Google_Lens.Lens
             "Google Lens", "https://lens.google.com/upload",
             new Dictionary<String, String>{ { "ep", "ccm" }, { "s", "csp" } },
             PUploadGResultProvider.ImageEncodingType.Raw,
-            "st", "encoded_image",
+            "st", "encoded_image", 200,
             new Regex(@"https:\/\/lens\.google\.com\/search\?p=[^\""]+", RegexOptions.Compiled),
             true
         );
@@ -86,7 +98,7 @@ namespace Windows_Google_Lens.Lens
             "Microsoft Bing", "https://www.bing.com/images/detail/search",
             new Dictionary<String, String>{ { "iss", "sbiupload" }, { "FORM", "ANCMS1" } },
             PUploadGResultProvider.ImageEncodingType.Base64,
-            null, "imageBin",
+            null, "imageBin", 302,
             new Regex(@"\/images\/search\?[^\""]+"), false
         );
     }

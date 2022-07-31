@@ -13,28 +13,26 @@ using System.Windows.Media.Imaging;
 
 namespace Windows_Google_Lens.Lens
 {
-    public class Worker
+    public static class Worker
     {
-        public enum ResultType
-        {
-            NetworkErrorOccured,
-            RequestErrorOccured,
-            AlgorithmError,
-            LinkObtained,
-            LaunchedSuccessfully,
-            TaskCancelled
-        }
         public struct Result
         {
-            public ResultType ResultType;
+            public enum Type
+            {
+                NetworkErrorOccurred,
+                AuthenticationErrorOccurred,
+                RequestErrorOccurred,
+                AlgorithmError,
+                LinkObtained,
+                LaunchedSuccessfully,
+                TaskCancelled
+            }
+
+            public Type ResultType;
             public String Data;
         }
 
-        private readonly HttpClient httpClient;
-
-        public Worker() => httpClient = new HttpClient();
-
-        public async Task<Result> LaunchLens(
+        public static async Task<Result> LaunchLens(
             Provider provider, Task<byte[]> imageBytes)
         {
             Task<Result> linkTask = null;
@@ -46,7 +44,7 @@ namespace Windows_Google_Lens.Lens
             }
 
             Result result = await linkTask;
-            if (result.ResultType != ResultType.LinkObtained)
+            if (result.ResultType != Result.Type.LinkObtained)
                 return result;
 
             LaunchLinkInBrowser(result);
@@ -55,76 +53,45 @@ namespace Windows_Google_Lens.Lens
 
         private static void LaunchLinkInBrowser(Result result) => Process.Start(result.Data);
 
-        private async Task<Result> PUploadGResult(
+        private static async Task<Result> PUploadGResult(
             PUploadGResultProvider provider, Task<byte[]> imageBytes)
         {
-            // Preparing data to be sent
-            Task<String> queryString = provider.GetQueryString();
-            Task<MultipartFormDataContent> formData = GetFormData(provider, imageBytes);
+            SocketWorker socketWorker = new SocketWorker(provider.PostDomain);
 
             // Making Post request
-            HttpResponseMessage response;
+            if (socketWorker.CurrentStatus != SocketWorker.Status.Ready)
+                return new Result { ResultType = Result.Type.AuthenticationErrorOccurred };
+
+            SocketWorker.Response response;
             try
             {
-                response = await httpClient.PostAsync(
-                    $"{provider.PostUrl}?{await queryString}", await formData);
+                response = await socketWorker.MakePUploadGResult(provider, await imageBytes);
             }
-            catch (HttpRequestException e)
+            catch (SocketWorker.SocketException e)
             {
                 return new Result
                 {
-                    ResultType = ResultType.NetworkErrorOccured,
+                    ResultType = Result.Type.NetworkErrorOccurred,
                     Data = e.Message
                 };
             }
 
-            try
-            {
-                response.EnsureSuccessStatusCode();
-            }
-            catch (HttpRequestException e)
-            {
+            if(response.StatusCode != provider.PostSuccessStatusCode)
                 return new Result
-                {
-                    ResultType = ResultType.RequestErrorOccured,
-                    Data = e.Message
-                };
-            }
-            
-            String link = provider.GetGetLink(await response.Content.ReadAsStringAsync());
+                { ResultType = Result.Type.RequestErrorOccurred };
+
+            String link = provider.GetGetLink(response.Body);
             if (link == null)
                 return new Result
                 {
-                    ResultType = ResultType.AlgorithmError
+                    ResultType = Result.Type.AlgorithmError
                 };
 
             return new Result
             {
-                ResultType = ResultType.LinkObtained,
+                ResultType = Result.Type.LinkObtained,
                 Data = link
             };
-        }
-
-        private static async Task<MultipartFormDataContent> GetFormData(
-            PUploadGResultProvider provider, Task<byte[]> imageBytes)
-        {
-            HttpContent encodedImage = null;
-
-            switch(provider.EncodingType){
-                case PUploadGResultProvider.ImageEncodingType.Raw:
-                    encodedImage = new ByteArrayContent(await imageBytes);
-                    break;
-                case PUploadGResultProvider.ImageEncodingType.Base64:
-                    encodedImage = new StringContent(Convert.ToBase64String(await imageBytes));
-                    break;
-            }
-
-            encodedImage.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
-            MultipartFormDataContent formData = new MultipartFormDataContent();
-            formData.Add(encodedImage, provider.ImageEntryName);
-
-            //formData.
-            return formData;
         }
     }
 }
