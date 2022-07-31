@@ -57,22 +57,24 @@ namespace Windows_Google_Lens.Views
             };
         }
 
-        private void screenshotSearch_Click(object sender, RoutedEventArgs e)
+        private async void screenshotSearch_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(async () =>
-            {
-                if (!await ScreenshotUtils.CaptureScreenshot(this) ||
-                    !await ScreenshotUtils.ClipboardHasImage(false))
-                    return;
+            //Task.Run(async () =>
+            //{
+            //    if (!await ScreenshotUtils.CaptureScreenshot(this) ||
+            //        !await ScreenshotUtils.ClipboardHasImage(false))
+            //        return;
 
-                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-                    "Your screenshot is being proceed.", this);
+            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+            //        "Your screenshot is being proceed.", this);
 
-                await worker.LaunchLens(
-                    provider, ScreenshotUtils.GetImageFromClipboard());
+            //    await worker.LaunchLens(
+            //        provider, ScreenshotUtils.GetImageFromClipboard());
 
-                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            });
+            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            //});
+
+            MessageBox.Show(await SocketWorker.GetResponce());
         }
 
         private void clipboardSearch_Click(object sender, RoutedEventArgs e)

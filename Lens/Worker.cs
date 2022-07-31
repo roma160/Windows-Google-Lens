@@ -123,7 +123,7 @@ namespace Windows_Google_Lens.Lens
             MultipartFormDataContent formData = new MultipartFormDataContent();
             formData.Add(encodedImage, provider.ImageEntryName);
 
-            formData.
+            //formData.
             return formData;
         }
     }
