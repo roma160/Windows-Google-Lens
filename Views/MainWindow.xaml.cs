@@ -68,6 +68,7 @@ namespace Windows_Google_Lens.Views
 
                 Worker.Result result = await Worker.LaunchLens(
                     provider, ScreenshotUtils.GetImageFromClipboard());
+                //MessageBox.Show(result.ToString());
 
                 await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
             });
@@ -75,37 +76,39 @@ namespace Windows_Google_Lens.Views
 
         private void clipboardSearch_Click(object sender, RoutedEventArgs e)
         {
-            //Task.Run(async () =>
-            //{
-            //    if (!await ScreenshotUtils.ClipboardHasImage()) return;
+            Task.Run(async () =>
+            {
+                if (!await ScreenshotUtils.ClipboardHasImage()) return;
 
-            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-            //        "Your photo is being proceed.", this);
+                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+                    "Your photo is being proceed.", this);
 
-            //    await worker.LaunchLens(
-            //        ScreenshotUtils.GetImageFromClipboard());
+                Worker.Result result = await Worker.LaunchLens(
+                    provider, ScreenshotUtils.GetImageFromClipboard());
+                //MessageBox.Show(result.ToString());
 
-            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            //});
+                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            });
         }
 
         private void fileSearch_Click(object sender, RoutedEventArgs e)
         {
-            //Task.Run(async () =>
-            //{
-            //    bool? fileDialogResult = Dispatcher.Invoke(() => fileDialog.ShowDialog(this));
-            //    if(!fileDialogResult.GetValueOrDefault(false)) return;
+            Task.Run(async () =>
+            {
+                bool? fileDialogResult = Dispatcher.Invoke(() => fileDialog.ShowDialog(this));
+                if (!fileDialogResult.GetValueOrDefault(false)) return;
 
-            //    Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
-            //        "Your file is being proceed.", this);
+                Task<LoadingWindow> loadingWindow = LoadingWindow.OpenLoadingWindow(
+                    "Your file is being proceed.", this);
 
-            //    String filePath = fileDialog.FileName;
-            //    Task<byte[]> contentsTask = Task.Run(() => File.ReadAllBytes(filePath));
+                String filePath = fileDialog.FileName;
+                Task<byte[]> contentsTask = Task.Run(() => File.ReadAllBytes(filePath));
 
-            //    await worker.LaunchLens(contentsTask);
+                Worker.Result result = await Worker.LaunchLens(provider, contentsTask);
+                //MessageBox.Show(result.ToString());
 
-            //    await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
-            //});
+                await LoadingWindow.CloseLoadingWindow(await loadingWindow, this);
+            });
         }
 
         private void MainUIWindow_Loaded(object sender, RoutedEventArgs e)

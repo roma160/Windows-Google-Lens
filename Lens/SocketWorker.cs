@@ -34,12 +34,15 @@ namespace Windows_Google_Lens.Lens
             NotConstructed, Ready, UserCertificationError
         }
 
+        //TODO: configure proper exceptions namings to catch all possible network situations
         public class SocketException : Exception
         {
             public enum Type
             {
                 InConstruction,
-                InRequestAuthentication
+                InConstructionBecNetwork,
+                InRequestAuthentication,
+                InRequestResponse
             }
 
             public readonly Type ExceptionType;
@@ -62,14 +65,14 @@ namespace Windows_Google_Lens.Lens
         private TcpClient TcpClient;
         private SslStream SslStream;
 
-        private const String LineSep = "\r\n";
+        public const String LineSep = "\r\n";
         private static readonly Regex ContentLengthRegex = new Regex(
             @"Content-Length:\s*(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex ResponseStatusCodeRegex = new Regex(
             @"HTTP/1\.1\s+(\d+)", RegexOptions.Compiled);
 
-        public SocketWorker(String hostname, bool isHttps = true, int timeout = 1000)
+        public SocketWorker(String hostname, bool isHttps = true, int timeout = 3000)
         {
             CurrentStatus = Status.NotConstructed;
 
@@ -79,7 +82,16 @@ namespace Windows_Google_Lens.Lens
                 "HTTP isn't implemented, and not going to be soon...");
             Port = isHttps ? 443 : 80;
 
-            TcpClient = new TcpClient(Hostname, Port);
+            try
+            {
+                TcpClient = new TcpClient(Hostname, Port);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                throw new SocketException(SocketException.Type.InConstructionBecNetwork,
+                    "Probably that is because you don't have an internet connection.");
+            }
+
             SslStream = new SslStream(TcpClient.GetStream(), false,
                 UserCertificateValidationCallback, null);
             SslStream.ReadTimeout = timeout;
@@ -101,9 +113,12 @@ namespace Windows_Google_Lens.Lens
         {
             // Setting up the security stuff
             if (CurrentStatus != Status.Ready)
+            {
+                TcpClient.Close();
                 throw new SocketException(
                     SocketException.Type.InConstruction,
                     "Your instance of worker wasn't properly constructed, check out this part of its lifetime!");
+            }
 
             try { SslStream.AuthenticateAsClient(Hostname); }
             catch (AuthenticationException e)
@@ -115,20 +130,6 @@ namespace Windows_Google_Lens.Lens
             }
             
             // Making the POST request
-            Task<String> queryString = provider.GetQueryString();
-
-            String requestBorder = GenerateBoundary();
-            int bodySize = 0;
-            String requestBodyBeginning = $"--{requestBorder}{LineSep}Content-Disposition: form-data";
-            if (provider.ImageEntryName != null)
-                requestBodyBeginning += $"; name=\"{provider.ImageEntryName}\"";
-            requestBodyBeginning += $"{LineSep}Content-Type: image/jpeg{LineSep}{LineSep}";
-
-            String requestBodyEnding = $"{LineSep}--{requestBorder}--";
-
-            bodySize += Encoding.UTF8.GetByteCount(requestBodyBeginning) +
-                        Encoding.UTF8.GetByteCount(requestBodyEnding);
-
             switch (provider.EncodingType)
             {
                 case PUploadGResultProvider.ImageEncodingType.Raw:
@@ -137,66 +138,79 @@ namespace Windows_Google_Lens.Lens
                     imageBytes = Encoding.UTF8.GetBytes(Convert.ToBase64String(imageBytes));
                     break;
             }
-            bodySize += imageBytes.Length;
+            Tuple<String, String> postContents = await provider.GetPostContents(imageBytes.Length);
 
-            String requestHeader = $"POST {provider.PostPath}?{await queryString} HTTP/1.1{LineSep}" +
-                                   $"Host: {provider.PostDomain}{LineSep}" +
-                                   $"Content-Length: {bodySize}{LineSep}" +
-                                   $"Content-Type: multipart/form-data; boundary={requestBorder}{LineSep}{LineSep}";
-
-            SslStream.Write(Encoding.UTF8.GetBytes(requestHeader));
-            SslStream.Write(Encoding.UTF8.GetBytes(requestBodyBeginning));
+            SslStream.Write(Encoding.UTF8.GetBytes(postContents.Item1));
             SslStream.Write(imageBytes);
-            SslStream.Write(Encoding.UTF8.GetBytes(requestBodyEnding));
+            SslStream.Write(Encoding.UTF8.GetBytes(postContents.Item2));
             SslStream.Flush();
 
 
             // Reading the answer
-            int bytesReceived;
-            byte[] buffer = new byte[1024];
-
-            long bodyLength = -1, bodyIndex;
-            StringBuilder responseHeadBuilder = new StringBuilder(),
-                responseBodyBuilder = new StringBuilder();
-
-            do {
-                bytesReceived = SslStream.Read(buffer, 0, buffer.Length);
-                if ((bodyIndex = ContainsEndOfHead(buffer)) != -1)
-                {
-                    responseBodyBuilder.Append(Encoding.UTF8.GetChars(
-                        SubArray(buffer, bodyIndex - 3, bytesReceived - bodyIndex + 3)));
-                    Array.Resize(ref buffer, (int) bodyIndex);
-                    responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
-                    bodyLength = int.Parse(ContentLengthRegex.Match(responseHeadBuilder.ToString()).Groups[1].Value);
-                    break;
-                }
-                responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
-            } while(bytesReceived > 1);
-
-            if (bodyLength > responseBodyBuilder.Length)
-            {
-                byte[] restBytes = new byte[bodyLength - responseBodyBuilder.Length];
-                while (bodyLength > responseBodyBuilder.Length)
-                {
-                    SslStream.Read(restBytes, 0, restBytes.Length);
-                    responseBodyBuilder.Append(Encoding.UTF8.GetChars(restBytes));
-                }
-            }
+            Tuple<String, String> postResponse = ReadResponse();
 
             TcpClient.Close();
 
+            if (postResponse == null)
+                throw new SocketException(
+                    SocketException.Type.InRequestResponse,
+                    "Problem is inside SocketWorker class, the request altering is needed!");
+
             // Forming the results
-            Response response = new Response
+            return new Response
             {
-                Head = responseHeadBuilder.ToString(),
-                Body = responseBodyBuilder.ToString()
+                Head = postResponse.Item1,
+                Body = postResponse.Item2,
+                StatusCode = int.Parse(ResponseStatusCodeRegex.Match(
+                    postResponse.Item1).Groups[1].Value)
             };
-            response.StatusCode = int.Parse(ResponseStatusCodeRegex.Match(response.Head).Groups[1].Value);
-            return response;
         });
 
-        //TODO: implement real random border generation
-        private static String GenerateBoundary(int length = 24) => "e2c09e68db44f08a3a1eead4";
+        private Tuple<String, String> ReadResponse()
+        {
+            byte[] buffer = new byte[1024];
+            int newBytesNumber;
+
+            long bodyLengthToReceive = -1, bodyStartIndex;
+            StringBuilder responseHeadBuilder = new StringBuilder(),
+                responseBodyBuilder = new StringBuilder();
+            try
+            {
+                do
+                {
+                    newBytesNumber = SslStream.Read(buffer, 0, buffer.Length);
+                    if ((bodyStartIndex = ContainsEndOfHead(buffer)) != -1)
+                    {
+                        responseBodyBuilder.Append(Encoding.UTF8.GetChars(
+                            SubArray(buffer, bodyStartIndex - 3, newBytesNumber - bodyStartIndex + 3)));
+                        Array.Resize(ref buffer, (int)bodyStartIndex);
+                        responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
+                        bodyLengthToReceive =
+                            int.Parse(ContentLengthRegex.Match(responseHeadBuilder.ToString()).Groups[1].Value);
+                        break;
+                    }
+
+                    responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
+                } while (newBytesNumber > 1);
+
+                if (bodyLengthToReceive > responseBodyBuilder.Length)
+                {
+                    byte[] restBytes = new byte[bodyLengthToReceive - responseBodyBuilder.Length];
+                    while (bodyLengthToReceive > responseBodyBuilder.Length)
+                    {
+                        SslStream.Read(restBytes, 0, restBytes.Length);
+                        responseBodyBuilder.Append(Encoding.UTF8.GetChars(restBytes));
+                    }
+                }
+            }
+            catch (IOException)
+            { return null; }
+            catch (SocketException)
+            { return null; }
+
+            return new Tuple<String, String>(
+                responseHeadBuilder.ToString(), responseBodyBuilder.ToString());
+        }
 
         private static long ContainsEndOfHead(byte[] bytes)
         {

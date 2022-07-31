@@ -22,6 +22,7 @@ namespace Windows_Google_Lens.Lens
                 NetworkErrorOccurred,
                 AuthenticationErrorOccurred,
                 RequestErrorOccurred,
+                ResponseErrorOccurred,
                 AlgorithmError,
                 LinkObtained,
                 LaunchedSuccessfully,
@@ -30,6 +31,8 @@ namespace Windows_Google_Lens.Lens
 
             public Type ResultType;
             public String Data;
+
+            public override string ToString() => $"Workers result ({ResultType}):\n{Data}";
         }
 
         public static async Task<Result> LaunchLens(
@@ -56,7 +59,19 @@ namespace Windows_Google_Lens.Lens
         private static async Task<Result> PUploadGResult(
             PUploadGResultProvider provider, Task<byte[]> imageBytes)
         {
-            SocketWorker socketWorker = new SocketWorker(provider.PostDomain);
+            SocketWorker socketWorker;
+            try
+            {
+                socketWorker = new SocketWorker(provider.PostDomain);
+            }
+            catch (SocketWorker.SocketException e)
+            {
+                return new Result
+                {
+                    ResultType = Result.Type.NetworkErrorOccurred,
+                    Data = e.Message
+                };
+            }
 
             // Making Post request
             if (socketWorker.CurrentStatus != SocketWorker.Status.Ready)
@@ -71,14 +86,14 @@ namespace Windows_Google_Lens.Lens
             {
                 return new Result
                 {
-                    ResultType = Result.Type.NetworkErrorOccurred,
+                    ResultType = Result.Type.RequestErrorOccurred,
                     Data = e.Message
                 };
             }
 
             if(response.StatusCode != provider.PostSuccessStatusCode)
                 return new Result
-                { ResultType = Result.Type.RequestErrorOccurred };
+                { ResultType = Result.Type.ResponseErrorOccurred };
 
             String link = provider.GetGetLink(response.Body);
             if (link == null)
