@@ -80,6 +80,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Lens\Providers.cs" />
+    <Compile Include="Views\Models\LensProvider.cs" />
     <Page Include="Views\Custom\AcrylicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,6 +109,7 @@
     <Compile Include="Utils\ClipboardManager.cs" />
     <Compile Include="Utils\WinAPI.cs" />
     <Compile Include="Views\Custom\AcrylicWindow.cs" />
+    <Compile Include="Views\Custom\ComboBoxItemSelector.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,11 @@
       <Version>0.9.6</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\google_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\bing_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,6 +24,7 @@ using ModernWpf.Controls;
 using Windows_Google_Lens.Lens;
 using Windows_Google_Lens.Utils;
 using Windows_Google_Lens.Views.Custom;
+using Windows_Google_Lens.Views.Models;
 
 namespace Windows_Google_Lens.Views
 {
@@ -123,6 +124,11 @@ namespace Windows_Google_Lens.Views
             //    "Your screenshot is being processed.");
             //loadingWindow.Owner = this;
             //loadingWindow.Show();
+        }
+
+        private void lensProviderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            provider = (lensProviderSelector.SelectedItem as LensProvider)?.Provider;
         }
     }
 }
