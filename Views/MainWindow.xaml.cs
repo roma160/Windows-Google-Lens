@@ -31,12 +31,13 @@ namespace Windows_Google_Lens.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : AcrylicWindow, IWindowWithClipboardManager
+    public partial class MainWindow : IWindowWithClipboardManager
     {
         private Provider provider;
 
         private ClipboardManager clipboardManager;
         public ClipboardManager ClipboardManager => clipboardManager;
+        public Window Window => this;
 
         private OpenFileDialog fileDialog;
 

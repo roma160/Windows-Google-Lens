@@ -68,9 +68,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Windows">
-      <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -81,6 +78,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Lens\Providers.cs" />
+    <Compile Include="Utils\ScreenshotUtils.cs" />
     <Compile Include="Views\Models\LensProvider.cs" />
     <Page Include="Views\Custom\AcrylicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,7 +101,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lens\Provider.cs" />
-    <Compile Include="Lens\ScreenshotUtils.cs" />
     <Compile Include="Lens\SocketWorker.cs" />
     <Compile Include="Lens\Worker.cs" />
     <Compile Include="Utils\ClipboardManager.cs" />

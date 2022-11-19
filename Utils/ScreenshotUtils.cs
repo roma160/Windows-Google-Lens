@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Windows_Google_Lens.Utils;
 
-namespace Windows_Google_Lens.Lens
+namespace Windows_Google_Lens.Utils
 {
     public static class ScreenshotUtils
     {
-        private static bool theScreenshotIsCaptured = false;
+        private static bool isCaptured = false;
         public static async Task<bool> CaptureScreenshot(IWindowWithClipboardManager window)
         {
-            if (theScreenshotIsCaptured) return false;
-            theScreenshotIsCaptured = true;
+            if (isCaptured) return false;
+
+            isCaptured = true;
+            Application.Current.Dispatcher.Invoke(() => window.Window.Hide());
 
             bool clipboardHaveChanged = false;
             EventHandler onClipboardChange = (sender, args) => clipboardHaveChanged = true;
@@ -25,7 +23,8 @@ namespace Windows_Google_Lens.Lens
 
             void OnCaptureFinish()
             {
-                theScreenshotIsCaptured = false;
+                Application.Current.Dispatcher.Invoke(() => window.Window.Show());
+                isCaptured = false;
                 window.ClipboardManager.ClipboardChanged -= onClipboardChange;
             }
 

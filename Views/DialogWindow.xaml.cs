@@ -20,10 +20,11 @@ namespace Windows_Google_Lens.Views
     /// <summary>
     /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class DialogWindow : AcrylicWindow, IWindowWithClipboardManager
+    public partial class DialogWindow : IWindowWithClipboardManager
     {
         private ClipboardManager clipboardManager;
         public ClipboardManager ClipboardManager => clipboardManager;
+        public Window Window => this;
 
         public DialogWindow()
         {

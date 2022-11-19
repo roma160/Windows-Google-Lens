@@ -61,5 +61,6 @@ namespace Windows_Google_Lens.Utils
     public interface IWindowWithClipboardManager
     {
         ClipboardManager ClipboardManager { get; }
+        Window Window { get; }
     }
 }
