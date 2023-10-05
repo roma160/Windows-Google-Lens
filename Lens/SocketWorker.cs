@@ -68,7 +68,8 @@ namespace Windows_Google_Lens.Lens
         public const String LineSep = "\r\n";
         private static readonly Regex ContentLengthRegex = new Regex(
             @"Content-Length:\s*(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
+        private static readonly Regex ChunkedResponseRegex = new Regex(
+            @"Transfer-Encoding:\s*chunked", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ResponseStatusCodeRegex = new Regex(
             @"HTTP/1\.1\s+(\d+)", RegexOptions.Compiled);
 
@@ -169,39 +170,57 @@ namespace Windows_Google_Lens.Lens
         private Tuple<String, String> ReadResponse()
         {
             byte[] buffer = new byte[1024];
-            int newBytesNumber;
-
-            long bodyLengthToReceive = -1, bodyStartIndex;
+            int newBytesNumber, bodyStartIndex;
+            long bodyLengthToReceive = -1;
             StringBuilder responseHeadBuilder = new StringBuilder(),
                 responseBodyBuilder = new StringBuilder();
             try
             {
+                // Receiving Head
                 do
                 {
                     newBytesNumber = SslStream.Read(buffer, 0, buffer.Length);
+
+                    // in case that's the last buffer with head part
                     if ((bodyStartIndex = ContainsEndOfHead(buffer)) != -1)
                     {
+                        responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer, 0, bodyStartIndex));
                         responseBodyBuilder.Append(Encoding.UTF8.GetChars(
-                            SubArray(buffer, bodyStartIndex - 3, newBytesNumber - bodyStartIndex + 3)));
-                        Array.Resize(ref buffer, (int)bodyStartIndex);
-                        responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
+                            buffer, bodyStartIndex - 3, newBytesNumber - bodyStartIndex + 3));
+
+                        if (!ChunkedResponseRegex.IsMatch(responseHeadBuilder.ToString()))
+                        {
                         bodyLengthToReceive =
                             int.Parse(ContentLengthRegex.Match(responseHeadBuilder.ToString()).Groups[1].Value);
+                        }
+
                         break;
                     }
 
+                    // buffer entirely contains Head
                     responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
-                } while (newBytesNumber > 1);
+                } while (newBytesNumber > 0);
 
+                // In case we had content-length
                 if (bodyLengthToReceive > responseBodyBuilder.Length)
                 {
-                    byte[] restBytes = new byte[bodyLengthToReceive - responseBodyBuilder.Length];
                     while (bodyLengthToReceive > responseBodyBuilder.Length)
                     {
-                        SslStream.Read(restBytes, 0, restBytes.Length);
-                        responseBodyBuilder.Append(Encoding.UTF8.GetChars(restBytes));
+                        newBytesNumber = SslStream.Read(buffer, 0, buffer.Length);
+                        responseBodyBuilder.Append(Encoding.UTF8.GetChars(buffer, 0, newBytesNumber));
                     }
                 }
+                // In case have chunked encoding
+                else
+                {
+                    do
+                    {
+                        newBytesNumber = SslStream.Read(buffer, 0, buffer.Length);
+                        responseBodyBuilder.Append(Encoding.UTF8.GetChars(buffer, 0, newBytesNumber));
+                        if(ContainsEndOfHead(buffer) != -1)
+                            break;
+                    } while (newBytesNumber > 0);
+            }
             }
             catch (IOException)
             { return null; }
@@ -212,10 +231,10 @@ namespace Windows_Google_Lens.Lens
                 responseHeadBuilder.ToString(), responseBodyBuilder.ToString());
         }
 
-        private static long ContainsEndOfHead(byte[] bytes)
+        private static int ContainsEndOfHead(byte[] bytes)
         {
             byte[] bytesToFind = { 0x0d, 0x0a, 0x0d, 0x0a };
-            long foundInd = -1;
+            int foundInd = -1;
             for (int i = 0; i < bytes.Length && foundInd == -1; i++)
             {
                 if (bytes[i] != bytesToFind[0]) continue;
@@ -228,13 +247,6 @@ namespace Windows_Google_Lens.Lens
             }
 
             return foundInd;
-        }
-
-        private static T[] SubArray<T>(T[] data, long index, long length)
-        {
-            T[] result = new T[length];
-            Array.Copy(data, index, result, 0, length);
-            return result;
         }
     }
 }
