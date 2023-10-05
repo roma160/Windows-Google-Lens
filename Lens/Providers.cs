@@ -7,12 +7,17 @@ namespace Windows_Google_Lens.Lens
     public static class Providers
     {
         public static PUploadGResultProvider GoogleLens = new PUploadGResultProvider(
-            "Google Lens", "https://lens.google.com/upload",
-            new Dictionary<String, String> { { "ep", "ccm" }, { "s", "csp" } },
+            "Google Lens", "https://lens.google.com/v3/upload",
+            new Dictionary<String, String> { { "ep", "subb" }, {"re", "df"} },
             PUploadGResultProvider.ImageEncodingType.Raw,
-            "st", "encoded_image", 200,
-            new Regex(@"https:\/\/lens\.google\.com\/search\?p=[^\""]+", RegexOptions.Compiled),
-            true
+            "stcs", "encoded_image", 200,
+            (self, text) =>
+            {
+                MatchCollection matches = Regex.Matches(text,
+                    @"\/search\?(.(?!\\u0026p\\u003d))*.\\u0026p\\u003d((.(?!\\u0026))+.)");
+                if (matches.Count < 1) return null;
+                return $"https://lens.google.com/search?p={matches[0].Groups[2].Value}";
+            }
         );
 
         public static PUploadGResultProvider MicrosoftBing = new PUploadGResultProvider(
@@ -20,7 +25,12 @@ namespace Windows_Google_Lens.Lens
             new Dictionary<String, String> { { "iss", "sbiupload" }, { "FORM", "ANCMS1" } },
             PUploadGResultProvider.ImageEncodingType.Base64,
             null, "imageBin", 302,
-            new Regex(@"\/images\/search\?[^\""]+"), false
+            (self, text) =>
+            {
+                MatchCollection matches = Regex.Matches(text, @"\/images\/search\?[^\""]+");
+                if (matches.Count < 1) return null;
+                return $"{self.ConnectionType}://{self.PostDomain}{matches[0].Value.Replace("&amp;", "&")}";
+            }
         );
     }
 }

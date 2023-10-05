@@ -38,8 +38,8 @@ namespace Windows_Google_Lens.Lens
         private readonly String PostBodyEndingTemplate;
         public readonly int PostSuccessStatusCode;
 
-        public readonly Regex GetUrlRegex;
-        public readonly bool GetIncludesDomain;
+        public delegate String ParseURLFunction(PUploadGResultProvider self, String responseText);
+        public readonly ParseURLFunction ParseUrlFunction;
 
         private static Random Random = new Random();
         private const String BoundaryCharacters = 
@@ -51,8 +51,8 @@ namespace Windows_Google_Lens.Lens
             ImageEncodingType encodingType,
             String timestampQueryName, String imageEntryName,
             int postSuccessStatusCode,
-            Regex getUrlRegex, bool getIncludesDomain,
-            int postFormBoundaryLength = 24) : base(providerName)
+            ParseURLFunction parseUrlFunction,
+            int postFormBoundaryLength = 40) : base(providerName)
         {
             PostUrl = postUrl;
             QueryParams = queryParams;
@@ -61,8 +61,7 @@ namespace Windows_Google_Lens.Lens
             ImageEntryName = imageEntryName;
             PostBoundaryLength = postFormBoundaryLength;
             PostSuccessStatusCode = postSuccessStatusCode;
-            GetUrlRegex = getUrlRegex;
-            GetIncludesDomain = getIncludesDomain;
+            ParseUrlFunction = parseUrlFunction;
 
             GroupCollection groups = new Regex(
                 @"(http(|s)):\/\/([^\/]+)(.*)").Match(PostUrl).Groups;
@@ -119,13 +118,7 @@ namespace Windows_Google_Lens.Lens
 
         public String GetGetLink(String responseText)
         {
-            MatchCollection matches = GetUrlRegex.Matches(responseText);
-            if (matches.Count < 1) return null;
-
-            String returnLink = matches[0].Value.Replace("&amp;", "&");
-            if (!GetIncludesDomain) returnLink =
-                $"{ConnectionType}://{PostDomain}{returnLink}";
-            return returnLink;
+            return ParseUrlFunction(this, responseText);
         }
     }
 }
