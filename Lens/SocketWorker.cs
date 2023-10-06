@@ -190,13 +190,13 @@ namespace Windows_Google_Lens.Lens
 
                         if (!ChunkedResponseRegex.IsMatch(responseHeadBuilder.ToString()))
                         {
-                        bodyLengthToReceive =
-                            int.Parse(ContentLengthRegex.Match(responseHeadBuilder.ToString()).Groups[1].Value);
+                            bodyLengthToReceive =
+                                int.Parse(ContentLengthRegex.Match(responseHeadBuilder.ToString()).Groups[1].Value);
                         }
 
                         break;
                     }
-
+                    
                     // buffer entirely contains Head
                     responseHeadBuilder.Append(Encoding.UTF8.GetChars(buffer));
                 } while (newBytesNumber > 0);
@@ -220,7 +220,7 @@ namespace Windows_Google_Lens.Lens
                         if(ContainsEndOfHead(buffer) != -1)
                             break;
                     } while (newBytesNumber > 0);
-            }
+                }
             }
             catch (IOException)
             { return null; }

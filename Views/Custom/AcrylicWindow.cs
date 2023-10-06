@@ -36,7 +36,11 @@ namespace Windows_Google_Lens.Views.Custom
                 new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
         public SolidColorBrush BodyBlurColor { get; set; }
 
-        public AcrylicWindow() => Loaded += OnLoaded;
+        public AcrylicWindow()
+        {
+            Loaded += OnLoaded;
+
+        }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {

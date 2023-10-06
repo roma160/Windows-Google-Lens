@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <DrawingGroup x:Key="bing_icon_xaml">
+        <DrawingGroup.ClipGeometry>
+            <RectangleGeometry Rect="0.0,0.0,234.0,343.41"/>
+        </DrawingGroup.ClipGeometry>
+        <DrawingGroup Transform="1.0,0.0,0.0,1.0,-163.0,-82.94">
+            <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="-29.25,662.02" EndPoint="-23.09,658.46" Transform="24.45,0.0,0.0,-24.45,967.18,16420.97">
+                        <GradientStop Color="#ff37bdff" Offset="0.0"/>
+                        <GradientStop Color="#ff33bffd" Offset="0.18"/>
+                        <GradientStop Color="#ff28c5f5" Offset="0.36"/>
+                        <GradientStop Color="#ff15d0e9" Offset="0.53"/>
+                        <GradientStop Color="#ff12d1e7" Offset="0.55"/>
+                        <GradientStop Color="#ff1cd2e5" Offset="0.59"/>
+                        <GradientStop Color="#ff42d8dc" Offset="0.77"/>
+                        <GradientStop Color="#ff59dbd6" Offset="0.91"/>
+                        <GradientStop Color="#ff62dcd4" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M 397 303.4 a 92.73 92.73 0 0 1 -24.84 63.16 a 41.81 41.81 0 0 0 4.5 -6 a 38.11 38.11 0 0 0 2.69 -5.08 a 17.7 17.7 0 0 0 0.74 -1.78 a 17.25 17.25 0 0 0 0.65 -1.78 c 0.21 -0.56 0.39 -1.14 0.55 -1.72 s 0.33 -1.2 0.46 -1.81 l 0.07 -0.21 c 0.14 -0.6 0.25 -1.2 0.37 -1.81 s 0.23 -1.25 0.33 -1.88 v 0 c 0.09 -0.58 0.16 -1.16 0.21 -1.76 a 40 40 0 0 0 0.21 -4.13 A 41.41 41.41 0 0 0 377 317.11 a 36.51 36.51 0 0 0 -2.85 -4.17 a 39.93 39.93 0 0 0 -4 -4.43 a 41.45 41.45 0 0 0 -12.36 -8.28 a 38.78 38.78 0 0 0 -6.22 -2.14 l -0.09 0 l -0.74 -0.25 l -10.81 -3.71 v 0 l -28.27 -9.72 c -0.09 0 -0.21 0 -0.28 0 l -1.77 -0.65 A 26.23 26.23 0 0 1 296.29 272 L 286 245.62 l -11.83 -30.16 l -2.27 -5.82 l -0.58 -1.18 a 13.35 13.35 0 0 1 -1 -5.08 a 12 12 0 0 1 0 -1.35 a 13.19 13.19 0 0 1 18.26 -10.79 l 52.69 27 l 10.39 5.31 A 91.11 91.11 0 0 1 367 235 a 92.45 92.45 0 0 1 29.79 61.87 C 396.91 299.06 397 301.22 397 303.4 Z" FillRule="Nonzero"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingGroup>
+        <DrawingGroup Transform="1.0,0.0,0.0,1.0,-163.0,-82.94">
+            <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="-32.86,656.68" EndPoint="-23.89,656.68" Transform="24.45,0.0,0.0,-24.45,967.18,16420.97">
+                        <GradientStop Color="#ff39d2ff" Offset="0.0"/>
+                        <GradientStop Color="#ff38cefe" Offset="0.15"/>
+                        <GradientStop Color="#ff35c3fa" Offset="0.29"/>
+                        <GradientStop Color="#ff2fb0f3" Offset="0.43"/>
+                        <GradientStop Color="#ff299aeb" Offset="0.55"/>
+                        <GradientStop Color="#ff2692ec" Offset="0.58"/>
+                        <GradientStop Color="#ff1a6cf1" Offset="0.76"/>
+                        <GradientStop Color="#ff1355f4" Offset="0.91"/>
+                        <GradientStop Color="#ff104cf5" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M 382.91 338.56 a 42.8 42.8 0 0 1 -0.72 7.82 c -0.14 0.67 -0.28 1.35 -0.44 2 c -0.3 1.2 -0.62 2.36 -1 3.53 c -0.21 0.6 -0.42 1.2 -0.65 1.78 s -0.49 1.18 -0.74 1.78 a 38.1 38.1 0 0 1 -2.69 5.08 a 42.22 42.22 0 0 1 -4.5 6 c -7.68 8.49 -33.75 23.63 -43.36 29.79 l -21.33 13 c -15.63 9.63 -30.41 16.45 -49 16.91 c -0.88 0 -1.74 0 -2.6 0 c -1.2 0 -2.39 0 -3.57 -0.07 a 92.86 92.86 0 0 1 -74.92 -43.17 a 91.58 91.58 0 0 1 -13.68 -38.67 a 41.13 41.13 0 0 0 60 28.95 l 0.14 -0.07 l 2.09 -1.25 l 8.49 -5 l 10.81 -6.4 v -0.3 l 1.39 -0.83 l 96.71 -57.29 l 7.44 -4.41 l 0.74 0.25 l 0.09 0 a 38.31 38.31 0 0 1 6.22 2.14 a 41.45 41.45 0 0 1 12.36 8.28 a 40 40 0 0 1 4 4.43 a 37 37 0 0 1 2.85 4.17 A 41.64 41.64 0 0 1 382.91 338.56 Z" FillRule="Nonzero"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingGroup>
+        <DrawingGroup Transform="1.0,0.0,0.0,1.0,-163.0,-82.94">
+            <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="-31.2,655.9" EndPoint="-31.2,667.89" Transform="24.45,0.0,0.0,-24.45,967.18,16420.97">
+                        <GradientStop Color="#ff1b48ef" Offset="0.0"/>
+                        <GradientStop Color="#ff1c51f0" Offset="0.12"/>
+                        <GradientStop Color="#ff1e69f5" Offset="0.32"/>
+                        <GradientStop Color="#ff2190fb" Offset="0.57"/>
+                        <GradientStop Color="#ff26b8f4" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M 245.24 147.35 l 0 213.29 L 234.39 367 l -8.5 5 l -2.09 1.27 a 0.24 0.24 0 0 0 -0.13 0.06 a 41.13 41.13 0 0 1 -60 -28.94 c -0.16 -0.89 -0.28 -1.81 -0.38 -2.7 c -0.13 -1.68 -0.22 -3.33 -0.25 -5 v -240 a 13.77 13.77 0 0 1 21.46 -11.41 l 42.07 27.48 a 5.55 5.55 0 0 0 0.73 0.51 A 41.14 41.14 0 0 1 245.24 147.35 Z" FillRule="Nonzero"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingGroup>
+        <DrawingGroup Opacity="0.14900000393390656">
+            <DrawingGroup>
+                <DrawingGroup.ClipGeometry>
+                    <RectangleGeometry Rect="163.02,288.38,227.17,140.76" Transform="1.0,0.0,0.0,1.0,-163.0,-82.94"/>
+                </DrawingGroup.ClipGeometry>
+                <DrawingGroup Transform="1.0,0.0,0.0,1.0,-163.0,-82.94">
+                    <GeometryDrawing>
+                        <GeometryDrawing.Brush>
+                            <LinearGradientBrush MappingMode="Absolute" StartPoint="-31.08,654.47" EndPoint="-25.54,660.0" Transform="24.45,0.0,0.0,-24.45,967.18,16420.97">
+                                <GradientStop Color="#ffffffff" Offset="0.0"/>
+                                <GradientStop Color="#fffdfdfd" Offset="0.37"/>
+                                <GradientStop Color="#fff6f6f6" Offset="0.51"/>
+                                <GradientStop Color="#ffebebeb" Offset="0.6"/>
+                                <GradientStop Color="#ffdadada" Offset="0.68"/>
+                                <GradientStop Color="#ffc4c4c4" Offset="0.75"/>
+                                <GradientStop Color="#ffa8a8a8" Offset="0.81"/>
+                                <GradientStop Color="#ff888888" Offset="0.86"/>
+                                <GradientStop Color="#ff626262" Offset="0.91"/>
+                                <GradientStop Color="#ff373737" Offset="0.95"/>
+                                <GradientStop Color="#ff090909" Offset="0.99"/>
+                                <GradientStop Color="#ff000000" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </GeometryDrawing.Brush>
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry Figures="M 382.91 338.56 a 42.8 42.8 0 0 1 -0.72 7.82 c -0.14 0.67 -0.28 1.35 -0.44 2 c -0.3 1.2 -0.62 2.36 -1 3.53 c -0.21 0.6 -0.42 1.2 -0.65 1.78 s -0.49 1.18 -0.74 1.78 a 38.1 38.1 0 0 1 -2.69 5.08 a 41.81 41.81 0 0 1 -4.5 6 c -7.68 8.49 -33.75 23.63 -43.36 29.79 l -21.33 13 c -15.63 9.63 -30.41 16.45 -49 16.91 c -0.88 0 -1.74 0 -2.6 0 c -1.2 0 -2.39 0 -3.57 -0.07 a 92.86 92.86 0 0 1 -74.92 -43.17 a 91.58 91.58 0 0 1 -13.68 -38.67 a 41.13 41.13 0 0 0 60 28.95 l 0.14 -0.07 l 2.09 -1.25 l 8.49 -5 l 10.81 -6.4 v -0.3 l 1.39 -0.83 l 96.71 -57.29 l 7.44 -4.41 l 0.74 0.25 l 0.09 0 a 38.31 38.31 0 0 1 6.22 2.14 a 41.45 41.45 0 0 1 12.36 8.28 a 40 40 0 0 1 4 4.43 a 37 37 0 0 1 2.85 4.17 A 41.64 41.64 0 0 1 382.91 338.56 Z" FillRule="Nonzero"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingGroup>
+        <DrawingGroup Opacity="0.09799999743700027">
+            <DrawingGroup>
+                <DrawingGroup.ClipGeometry>
+                    <RectangleGeometry Rect="163.02,82.87,86.51,302.96" Transform="1.0,0.0,0.0,1.0,-163.0,-82.94"/>
+                </DrawingGroup.ClipGeometry>
+                <DrawingGroup Transform="1.0,0.0,0.0,1.0,-163.0,-82.94">
+                    <GeometryDrawing>
+                        <GeometryDrawing.Brush>
+                            <LinearGradientBrush StartPoint="-31.2,668.1" EndPoint="-31.2,656.02">
+                                <GradientStop Color="#ffffffff" Offset="0.0"/>
+                                <GradientStop Color="#fffdfdfd" Offset="0.37"/>
+                                <GradientStop Color="#fff6f6f6" Offset="0.51"/>
+                                <GradientStop Color="#ffebebeb" Offset="0.6"/>
+                                <GradientStop Color="#ffdadada" Offset="0.68"/>
+                                <GradientStop Color="#ffc4c4c4" Offset="0.75"/>
+                                <GradientStop Color="#ffa8a8a8" Offset="0.81"/>
+                                <GradientStop Color="#ff888888" Offset="0.86"/>
+                                <GradientStop Color="#ff626262" Offset="0.91"/>
+                                <GradientStop Color="#ff373737" Offset="0.95"/>
+                                <GradientStop Color="#ff090909" Offset="0.99"/>
+                                <GradientStop Color="#ff000000" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </GeometryDrawing.Brush>
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry Figures="M 245.24 147.35 l 0 213.29 L 234.39 367 l -8.5 5 l -2.09 1.27 a 0.24 0.24 0 0 0 -0.13 0.06 a 41.13 41.13 0 0 1 -60 -28.94 c -0.16 -0.89 -0.28 -1.81 -0.38 -2.7 c -0.13 -1.68 -0.22 -3.33 -0.25 -5 v -240 a 13.77 13.77 0 0 1 21.46 -11.41 l 42.07 27.48 a 5.55 5.55 0 0 0 0.73 0.51 A 41.14 41.14 0 0 1 245.24 147.35 Z" FillRule="Nonzero"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingGroup>
+    </DrawingGroup>
+    <DrawingBrush Stretch="Uniform" Drawing="{StaticResource bing_icon_xaml}" x:Key="db_bing_icon_xaml"/>
+</ResourceDictionary>

@@ -14,29 +14,47 @@
                      Loaded="MainUIWindow_Loaded">
 
     <local:AcrylicWindow.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-        </Style>
+        <ResourceDictionary>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
+            <!-- How to create those files:
+            SVG to XAML in Inkscape: https://stackoverflow.com/a/25056051/8302811
+            Problem with export in Inkscape: https://gitlab.com/inkscape/inkscape/-/issues/4502
+            Problem fix: https://gitlab.com/inkscape/extras/extension-xaml
+            Usage guide: https://stackoverflow.com/questions/3526366/wpf-what-is-the-correct-way-of-using-svg-files-as-icons-in-wpf
+            -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Images/bing_icon.xaml"/>
+                <ResourceDictionary Source="../Resources/Images/google_icon.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </local:AcrylicWindow.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
-
-        <Button x:Name="screenshotSearch" Content="Screenshot search"
-                Margin="12,20,11,0"
-                VerticalAlignment="Top" Width="169" Height="43"
+        <Button x:Name="screenshotSearch" Content="Make screenshot"
+                Margin="10,10,5,0"
+                VerticalAlignment="Top" Height="43" Grid.Column="0"
                 Click="screenshotSearch_Click"
-                ToolTip="Open windows snipping tool to take a screenshot and then launch Google Lens website" />
+                ToolTip="Open windows snipping tool to take a screenshot and then launch Google Lens website"
+                HorizontalAlignment="Stretch" />
 
-        <ComboBox x:Name="lensProviderSelector" Margin="0,20,0,0" Grid.Column="1" Width="88" Height="43"
+        <ComboBox x:Name="lensProviderSelector" Margin="4,9,9,0" Height="45"
                   Background="#66828282" BorderBrush="{x:Null}" SelectedIndex="0"
                   SelectionChanged="lensProviderSelector_SelectionChanged"
-                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem.(model:LensProvider.Name)}">
+                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem.(model:LensProvider.Name)}"
+                  HorizontalAlignment="Stretch" Grid.Column="1">
             <ComboBox.Resources>
                 <ResourceDictionary>
                     <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#33828282" />
@@ -47,18 +65,18 @@
             </ComboBox.Resources>
 
             <ComboBox.ItemTemplateSelector>
-                <local:ComboBoxItemTemplateSelector>
+                <local:ComboBoxItemTemplateSelector >
                     <local:ComboBoxItemTemplateSelector.ItemTemplate>
-                        <DataTemplate DataType="model:LensProvider">
+                        <DataTemplate DataType="model:LensProvider" >
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Icon}" Height="40" Width="40" />
+                                <Rectangle Fill="{Binding Icon}" Height="30" Width="30" />
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5,0,0,0" />
                             </StackPanel>
                         </DataTemplate>
                     </local:ComboBoxItemTemplateSelector.ItemTemplate>
                     <local:ComboBoxItemTemplateSelector.SelectedItemTemplate>
                         <DataTemplate DataType="model:LensProvider">
-                            <Image Source="{Binding Icon}" />
+                            <Rectangle Fill="{Binding Icon}" Width="28" Height="28" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </DataTemplate>
                     </local:ComboBoxItemTemplateSelector.SelectedItemTemplate>
                 </local:ComboBoxItemTemplateSelector>
@@ -67,26 +85,26 @@
             <ComboBox.ItemsSource>
                 <x:Array Type="model:LensProvider">
                     <model:LensProvider Provider="{x:Static lens:Providers.GoogleLens}"
-                                        Icon="../Resources/Images/google_icon.png" />
+                                        Icon="{StaticResource db_google_icon_xaml}" />
                     <model:LensProvider Provider="{x:Static lens:Providers.MicrosoftBing}"
-                                        Icon="../Resources/Images/bing_icon.png" />
+                                        Icon="{StaticResource db_bing_icon_xaml}" />
                 </x:Array>
             </ComboBox.ItemsSource>
         </ComboBox>
 
         <Button x:Name="clipboardSearch" Content="Clipboard search"
-                Margin="12,68,11,0"
+                Margin="69,183,0,0"
                 VerticalAlignment="Top" Width="169" Height="43"
                 Click="clipboardSearch_Click"
-                ToolTip="Search last clipboard picture" />
+                ToolTip="Search last clipboard picture" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
         <Button x:Name="fileSearch" Content="File search"
-                Margin="12,0,11,20"
+                Margin="69,0,0,-95"
                 VerticalAlignment="Bottom" Width="169" Height="43"
                 Click="fileSearch_Click"
-                ToolTip="Search by local file" />
+                ToolTip="Search by local file" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
 
         <Button x:Name="debugButton" Content="Debug"
-                Margin="86,140,11,0"
-                VerticalAlignment="Top" Width="95" Height="33" Click="debugButton_Click" />
+                Margin="108,85,0,0"
+                VerticalAlignment="Top" Width="95" Height="33" Click="debugButton_Click" HorizontalAlignment="Left" />
     </Grid>
 </local:AcrylicWindow>

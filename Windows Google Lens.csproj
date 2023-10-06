@@ -80,6 +80,13 @@
     <Compile Include="Lens\Providers.cs" />
     <Compile Include="Utils\ScreenshotUtils.cs" />
     <Compile Include="Views\Models\LensProvider.cs" />
+    <Page Include="Resources\Images\bing_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Images\google_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Custom\AcrylicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
