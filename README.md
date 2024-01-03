@@ -1,5 +1,11 @@
 ﻿# Windows Google Lens
 
+
+
+https://github.com/roma160/Windows-Google-Lens/assets/17747914/acb345c5-16c6-440c-af59-c8706e54a451
+
+
+
 Project to make **unofficial** native port of mobile version of Google Lense onto Windows.
 
 The concept is firstly presented by https://github.com/WhoIsJayD/Google-Lens-For-Windows
